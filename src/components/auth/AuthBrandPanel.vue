@@ -1,5 +1,5 @@
 <template>
-  <section class="relative hidden overflow-hidden bg-slate-950 px-10 py-12 text-slate-100 lg:flex lg:min-h-screen lg:flex-col lg:justify-between xl:px-16">
+  <section class="relative hidden overflow-hidden bg-slate-950 px-6 py-8 text-slate-100 sm:col-span-2 sm:flex sm:min-h-dvh sm:flex-col sm:justify-between md:px-8 md:py-10 lg:col-span-1 lg:px-10 lg:py-12 xl:px-16">
     <div class="relative">
       <div class="flex items-center gap-3">
         <div class="flex size-10 items-center justify-center rounded-xl bg-cyan-400 text-slate-950 shadow-lg shadow-cyan-400/20">
@@ -8,14 +8,14 @@
         <span class="text-lg font-semibold tracking-tight">Super Studio</span>
       </div>
 
-      <div class="mt-20 max-w-md">
-        <p class="text-sm font-medium tracking-widest text-cyan-300">CREATE WITH INTENT</p>
-        <h1 class="mt-5 text-5xl font-semibold leading-tight tracking-tight text-white xl:text-6xl">让灵感，<br>一键显影。</h1>
-        <p class="mt-6 max-w-sm text-base leading-7 text-slate-400">从一句描述到一张成片，为每一次创作保留清晰、专注的开始。</p>
+      <div class="mt-12 max-w-md lg:mt-20">
+        <p class="text-xs font-medium tracking-widest text-cyan-300 sm:text-sm">CREATE WITH INTENT</p>
+        <h1 class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl lg:mt-5 lg:text-5xl xl:text-6xl">让灵感，<br>一键显影。</h1>
+        <p class="mt-5 max-w-sm text-sm leading-6 text-slate-400 md:text-base md:leading-7">从一句描述到一张成片，为每一次创作保留清晰、专注的开始。</p>
       </div>
     </div>
 
-    <div class="relative grid max-w-lg grid-cols-3 gap-3">
+    <div class="relative hidden max-w-lg grid-cols-3 gap-3 lg:grid">
       <div class="col-span-2 h-32 rounded-2xl border border-white/10 bg-slate-800 p-5 shadow-xl shadow-black/20">
         <div class="flex items-center justify-between text-xs text-slate-400">
           <span>CREATIVE ENGINE</span>

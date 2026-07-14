@@ -1,7 +1,7 @@
 <template>
-  <section class="flex min-h-screen items-center justify-center bg-slate-50 px-5 py-10 sm:px-8">
+  <section class="flex min-h-dvh items-start justify-center bg-slate-50 px-5 py-8 sm:col-span-3 sm:items-center sm:px-8 sm:py-10 md:px-10 lg:col-span-1 lg:px-12 xl:px-16">
     <div class="w-full max-w-md">
-      <div class="mb-10 flex items-center gap-3 lg:hidden">
+      <div class="mb-8 flex items-center gap-3 sm:hidden">
         <div
           class="flex size-10 items-center justify-center rounded-xl bg-slate-950 text-cyan-300 shadow-lg shadow-slate-900/15">
           <Sparkles class="size-5" />
@@ -9,21 +9,21 @@
         <span class="text-lg font-semibold tracking-tight text-slate-950">Super Studio</span>
       </div>
 
-      <div class="mb-8">
-        <p class="text-sm font-medium text-cyan-700">WELCOME TO THE STUDIO</p>
-        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950">{{ heading }}</h2>
+      <div class="mb-7 sm:mb-8">
+        <p class="text-xs font-medium tracking-wide text-cyan-700 sm:text-sm">WELCOME TO THE STUDIO</p>
+        <h2 class="mt-3 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">{{ heading }}</h2>
         <p class="mt-3 text-sm leading-6 text-slate-500">{{ subheading }}</p>
       </div>
 
-      <div class="grid grid-cols-3 rounded-xl bg-slate-200 p-1 text-sm font-medium">
-        <button v-for="item in modes" :key="item.value" class="rounded-lg px-2 py-2.5 transition"
+      <div class="grid grid-cols-3 rounded-xl bg-slate-200 p-1 text-xs font-medium sm:text-sm">
+        <button v-for="item in modes" :key="item.value" class="min-h-11 rounded-lg px-1 py-2 transition sm:px-2"
           :class="item.value === props.mode ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-800'"
           type="button" @click="emit('switchMode', item.value)">
           {{ item.label }}
         </button>
       </div>
 
-      <form v-if="props.mode !== 'phone-login'" class="mt-7 space-y-5" @submit.prevent="submitEmailForm">
+      <form v-if="props.mode !== 'phone-login'" class="mt-6 space-y-5 sm:mt-7" @submit.prevent="submitEmailForm">
         <label class="block">
           <span class="mb-2 block text-sm font-medium text-slate-700">邮箱地址</span>
           <span class="relative block">
@@ -43,7 +43,7 @@
               :autocomplete="props.mode === 'register' ? 'new-password' : 'current-password'"
               :type="isPasswordVisible ? 'text' : 'password'" minlength="8" placeholder="至少 8 位，包含字母和数字" required>
             <button
-              class="absolute right-3 top-1/2 rounded-md p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+              class="absolute right-3 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
               type="button" :aria-label="isPasswordVisible ? '隐藏密码' : '显示密码'"
               @click="isPasswordVisible = !isPasswordVisible">
               <EyeOff v-if="isPasswordVisible" class="size-4" />
@@ -76,7 +76,7 @@
         </button>
       </form>
 
-      <form v-else class="mt-7 space-y-5" @submit.prevent="submitPhoneForm">
+      <form v-else class="mt-6 space-y-5 sm:mt-7" @submit.prevent="submitPhoneForm">
         <label class="block">
           <span class="mb-2 block text-sm font-medium text-slate-700">手机号</span>
           <span class="relative block">
@@ -89,12 +89,12 @@
 
         <label class="block">
           <span class="mb-2 block text-sm font-medium text-slate-700">验证码</span>
-          <span class="flex gap-3">
+          <span class="flex gap-2 sm:gap-3">
             <input v-model.trim="phoneForm.code"
               class="block min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm tracking-widest text-slate-950 outline-none transition placeholder:tracking-normal placeholder:text-slate-400 focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100"
               inputmode="numeric" maxlength="6" placeholder="6 位验证码" required>
             <button
-              class="shrink-0 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition hover:border-cyan-300 hover:text-cyan-700 disabled:cursor-not-allowed disabled:text-slate-400"
+              class="min-h-11 shrink-0 rounded-xl border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 transition hover:border-cyan-300 hover:text-cyan-700 disabled:cursor-not-allowed disabled:text-slate-400 sm:px-4 sm:text-sm"
               :disabled="props.sendingCode || props.codeCountdown > 0" type="button" @click="requestPhoneCode">
               {{ codeButtonLabel }}
             </button>
@@ -114,7 +114,7 @@
         </button>
       </form>
 
-      <p class="mt-8 text-center text-xs leading-5 text-slate-500">继续即表示你同意我们的服务条款与隐私政策。</p>
+      <p class="mt-7 text-center text-xs leading-5 text-slate-500 sm:mt-8">继续即表示你同意我们的服务条款与隐私政策。</p>
     </div>
   </section>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <main class="min-h-screen lg:grid lg:grid-cols-2">
+  <main class="min-h-dvh sm:grid sm:grid-cols-5 lg:grid-cols-2">
     <AuthBrandPanel />
     <AuthForm :code-countdown="codeCountdown" :error-message="errorMessage" :loading="isSubmitting" :mode="authMode" :sending-code="isSendingCode" :success-message="successMessage" @request-phone-code="handleRequestPhoneCode" @submit-email="handleEmailSubmit" @submit-phone="handlePhoneSubmit" @switch-mode="switchMode" />
   </main>
