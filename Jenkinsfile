@@ -82,8 +82,21 @@ pipeline {
         stage('部署验证') {
             steps {
                 sh '''
-                    docker exec ${WEB_CONTAINER_NAME} wget -qO- http://127.0.0.1/ > /dev/null
-                    docker exec ${WEB_CONTAINER_NAME} wget -qO- http://127.0.0.1/api/ > /dev/null
+                    echo "等待 Nginx 和后端代理就绪..."
+                    for attempt in $(seq 1 15); do
+                      if docker exec ${WEB_CONTAINER_NAME} wget -qO- http://127.0.0.1/ > /dev/null \
+                        && docker exec ${WEB_CONTAINER_NAME} wget -qO- http://127.0.0.1/api/ > /dev/null; then
+                        echo "✅ 部署验证通过"
+                        exit 0
+                      fi
+
+                      echo "第 ${attempt} 次检查未通过，2 秒后重试..."
+                      sleep 2
+                    done
+
+                    echo "❌ 部署验证失败，Nginx 容器日志："
+                    docker logs --tail 100 ${WEB_CONTAINER_NAME} || true
+                    exit 1
                 '''
             }
         }
