@@ -34,7 +34,7 @@ class RequestHttp {
 
 	private setupInterceptorsResponse() {
 		this.instance.interceptors.response.use(
-			(response: AxiosResponse<IApiResponse<unknown>>) => {
+			(response) => {
 				const data = response.data
 				const code = String(data?.code)
 
