@@ -6,6 +6,7 @@ pipeline {
         IMAGE_TAG = 'latest'
         WEB_CONTAINER_NAME = 'super-web'
         WEB_PORT = '80'
+        NETWORK_NAME = 'super-network'
     }
 
     stages {
@@ -19,6 +20,8 @@ pipeline {
             steps {
                 sh '''
                     docker info > /dev/null
+                    docker network inspect ${NETWORK_NAME} > /dev/null 2>&1 || \
+                      docker network create ${NETWORK_NAME}
                 '''
             }
         }
@@ -68,7 +71,7 @@ pipeline {
                     echo "🚀 启动 Nginx 前端容器..."
                     docker run -d \
                       --name ${WEB_CONTAINER_NAME} \
-                      --add-host host.docker.internal:host-gateway \
+                      --network ${NETWORK_NAME} \
                       -p ${WEB_PORT}:80 \
                       --restart=always \
                       ${IMAGE_NAME}:${IMAGE_TAG}
