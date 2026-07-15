@@ -4,8 +4,8 @@ import type {
 	AxiosRequestConfig,
 	InternalAxiosRequestConfig,
 } from 'axios'
-import axios from 'axios'
 import type { IApiResponse } from '@/api/interface/common'
+import axios from 'axios'
 
 const config = {
 	baseURL: '/api',
