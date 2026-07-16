@@ -3,10 +3,14 @@
 		<div class="flex items-center justify-between border-b border-stone-200 px-4 py-4">
 			<div>
 				<div class="flex items-center gap-2">
-					<p class="text-base font-semibold text-stone-950">AI 修图助手</p>
-					<span class="size-2 rounded-full bg-emerald-400"></span>
+					<p class="text-base font-semibold text-stone-950">
+						AI 修图助手
+					</p>
+					<span class="size-2 rounded-full bg-emerald-400" />
 				</div>
-				<p class="mt-1 text-xs text-stone-500">可对话，也可把提示词放到画布节点</p>
+				<p class="mt-1 text-xs text-stone-500">
+					可对话，也可把提示词放到画布节点
+				</p>
 			</div>
 			<Button class="rounded-lg text-stone-500 hover:bg-stone-100 hover:text-stone-950" size="icon-sm" variant="ghost">
 				<PanelRightClose class="size-4" />
@@ -84,9 +88,11 @@
 				</button>
 			</div>
 			<div class="rounded-lg border border-stone-200 bg-stone-50 p-2">
-				<textarea
-					class="h-24 w-full resize-none bg-transparent px-2 py-2 text-sm text-stone-950 outline-none placeholder:text-stone-400"
-					placeholder="输入你想怎么改图，例如：自然美白、瘦脸一点、换成海边背景..."></textarea>
+				<PromptEditor
+					v-model="prompt"
+					editor-class="h-24 px-2 py-2"
+					:mentions="mentionItems"
+					placeholder="输入你想怎么改图，例如：自然美白、瘦脸一点、换成海边背景..." />
 				<div class="flex items-center justify-between px-1 pb-1">
 					<Button class="rounded-lg text-stone-500 hover:bg-stone-100 hover:text-stone-950" size="icon-sm" variant="ghost">
 						<Paperclip class="size-4" />
@@ -102,7 +108,9 @@
 </template>
 
 <script setup lang="ts">
+import type { PromptMentionItem } from './prompt-mentions'
 import { Bot, CheckCircle2, Clock3, ImagePlus, PanelRightClose, Paperclip, SendHorizontal } from '@lucide/vue'
+import { shallowRef } from 'vue'
 import { Button } from '@/components/ui/button'
 import {
 	Message,
@@ -119,6 +127,7 @@ import {
 	MessageScrollerProvider,
 	MessageScrollerViewport,
 } from '@/components/ui/message-scroller'
+import PromptEditor from './PromptEditor.vue'
 
 interface MockMessage {
 	id: string
@@ -195,4 +204,16 @@ const mockMessages: MockMessage[] = [
 ]
 
 const presets = ['自然美白', '瘦脸', '瘦腿', '增高', '去黑眼圈', '去瑕疵', '换背景', '高清修复']
+const prompt = shallowRef('')
+const mentionItems: PromptMentionItem[] = [
+	{ id: 'current-image', label: '当前图片', description: '以画布中选中的图片为输入' },
+	{ id: 'portrait', label: '人像主体', description: '针对人物五官、皮肤与身材调整' },
+	{ id: 'background', label: '背景', description: '替换或优化画面背景' },
+	{ id: 'natural-whitening', label: '自然美白', description: '提亮肤色并保留纹理' },
+	{ id: 'face-slimming', label: '轻微瘦脸', description: '保持自然的五官比例' },
+	{ id: 'leg-slimming', label: '瘦腿', description: '局部修饰腿部线条' },
+	{ id: 'height', label: '增高比例', description: '优化整体身材比例' },
+	{ id: 'retouch', label: '去瑕疵', description: '清理痘印、黑眼圈与细小瑕疵' },
+	{ id: 'upscale', label: '高清修复', description: '提升清晰度与细节表现' },
+]
 </script>

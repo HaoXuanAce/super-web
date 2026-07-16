@@ -6,6 +6,7 @@ import type {
 } from 'axios'
 import type { IApiResponse } from '@/api/interface/common'
 import axios from 'axios'
+import { useAuthStore } from '@/store/auth'
 
 const config = {
 	baseURL: '/api',
@@ -23,6 +24,11 @@ class RequestHttp {
 	private setupInterceptorsRequest() {
 		this.instance.interceptors.request.use(
 			(config: InternalAxiosRequestConfig) => {
+				const authStore = useAuthStore()
+				if (authStore.accessToken && !config.headers.hasAuthorization()) {
+					config.headers.setAuthorization(`Bearer ${authStore.accessToken}`)
+				}
+
 				return config
 			},
 			(error: AxiosError) => {
