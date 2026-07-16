@@ -1,3 +1,5 @@
+import type { FilterOption } from './filter-library'
+
 export interface ImageNodeData {
 	title: string
 	size: string
@@ -5,4 +7,9 @@ export interface ImageNodeData {
 	options: string[]
 	imageUrl: string
 	aspectRatio?: string
+	prompt?: string
+	model?: string
+	quality?: string
+	resolution?: string
+	filter?: FilterOption | null
 }

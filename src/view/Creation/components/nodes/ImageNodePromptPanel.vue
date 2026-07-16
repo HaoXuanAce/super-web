@@ -115,10 +115,9 @@
 
 <script setup lang="ts">
 import type { PromptMentionItem } from '../prompt-mentions'
-import type { FilterOption } from './filter-library'
 import type { ImageNodeData } from './types'
 import { ArrowUp, ChevronDown, Expand } from '@lucide/vue'
-import { ref, shallowRef } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
@@ -137,22 +136,43 @@ import PopularImageDialog from './PopularImageDialog.vue'
 const props = defineProps<{
 	data: ImageNodeData
 }>()
+const emit = defineEmits<{
+	'update:data': [data: Partial<ImageNodeData>]
+}>()
 
 const { overlayStyle } = useFlowOverlayScale({
 	transformOrigin: 'top center',
 	width: '35vw',
 })
 
-const model = ref('火山引擎 5.0 Lite')
-const quality = ref('标准画质')
-const resolution = ref('2K')
-const aspectRatio = shallowRef(props.data.aspectRatio ?? '16:9')
+const model = computed({
+	get: () => props.data.model ?? '火山引擎 5.0 Lite',
+	set: value => emit('update:data', { model: value }),
+})
+const quality = computed({
+	get: () => props.data.quality ?? '标准画质',
+	set: value => emit('update:data', { quality: value }),
+})
+const resolution = computed({
+	get: () => props.data.resolution ?? '2K',
+	set: value => emit('update:data', { resolution: value }),
+})
+const aspectRatio = computed({
+	get: () => props.data.aspectRatio ?? '16:9',
+	set: value => emit('update:data', { aspectRatio: value }),
+})
 const openSelect = ref(false)
 const isSettingsOpen = ref(false)
 const isFilterOpen = shallowRef(false)
 const isPopularImageDialogOpen = shallowRef(false)
-const selectedFilter = ref<FilterOption | null>(null)
-const prompt = shallowRef('')
+const selectedFilter = computed({
+	get: () => props.data.filter ?? null,
+	set: value => emit('update:data', { filter: value }),
+})
+const prompt = computed({
+	get: () => props.data.prompt ?? '',
+	set: value => emit('update:data', { prompt: value }),
+})
 
 const modelOptions = ['火山引擎 5.0 Lite', 'GTP-image-2.0']
 const qualityOptions = ['低画质', '标准画质', '高画质']

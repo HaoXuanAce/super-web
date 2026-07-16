@@ -24,7 +24,7 @@
 			<Plus class="size-5 text-slate-950" />
 		</Handle>
 
-		<ImageNodePromptPanel v-if="selected" :data="data" />
+		<ImageNodePromptPanel v-if="selected" :data="data" @update:data="emit('update:data', { nodeId: id, data: $event })" />
 	</div>
 </template>
 
@@ -37,8 +37,13 @@ import ImageNodeActionBar from './ImageNodeActionBar.vue'
 import ImageNodePromptPanel from './ImageNodePromptPanel.vue'
 
 const props = defineProps<{
+	id: string
 	data: ImageNodeData
 	selected?: boolean
+}>()
+
+const emit = defineEmits<{
+	'update:data': [payload: { nodeId: string, data: Partial<ImageNodeData> }]
 }>()
 
 const isPortraitNode = computed(() => props.data.aspectRatio === '9:16')
