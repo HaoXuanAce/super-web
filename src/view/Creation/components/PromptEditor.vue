@@ -1,13 +1,13 @@
 <template>
 	<EditorContent
 		:editor="editor"
-		:class="[
-			'overflow-y-auto text-sm text-stone-950 outline-none [&_.tiptap]:min-h-full [&_.tiptap]:outline-none [&_.tiptap_p]:m-0 [&_.tiptap_p.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_p.is-editor-empty:first-child::before]:float-left [&_.tiptap_p.is-editor-empty:first-child::before]:h-0 [&_.tiptap_p.is-editor-empty:first-child::before]:text-stone-400 [&_.tiptap_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]',
+		class="overflow-y-auto text-sm text-stone-950 outline-none [&_.tiptap]:min-h-full [&_.tiptap]:outline-none [&_.tiptap_p]:m-0 [&_.tiptap_p.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_p.is-editor-empty:first-child::before]:float-left [&_.tiptap_p.is-editor-empty:first-child::before]:h-0 [&_.tiptap_p.is-editor-empty:first-child::before]:text-stone-400 [&_.tiptap_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]" :class="[
 			editorClass,
 		]" />
 </template>
 
 <script setup lang="ts">
+import type { MentionNodeAttrs } from '@tiptap/extension-mention'
 import type { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion'
 import type { PromptMentionItem } from './prompt-mentions'
 import Mention from '@tiptap/extension-mention'
@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<{
 })
 const model = defineModel<string>({ default: '' })
 
-type MentionSuggestionProps = SuggestionProps<PromptMentionItem, PromptMentionItem>
+type MentionSuggestionProps = SuggestionProps<PromptMentionItem, MentionNodeAttrs>
 
 const editor = useEditor({
 	content: model.value,
@@ -77,11 +77,16 @@ function createMentionSuggestion() {
 				})
 				.slice(0, 12)
 		},
-		command: ({ editor, range, props: item }: {
+		command: ({ editor, range, props: attrs }: {
 			editor: MentionSuggestionProps['editor']
 			range: MentionSuggestionProps['range']
-			props: PromptMentionItem
+			props: MentionNodeAttrs
 		}) => {
+			const item = props.mentions.find(mention => mention.id === attrs.id)
+			if (!item) {
+				return
+			}
+
 			editor.chain().focus().insertContentAt(range, [
 				{
 					type: 'mention',
@@ -100,15 +105,15 @@ function createMentionSuggestion() {
 			onStart: (suggestionProps: MentionSuggestionProps) => {
 				renderer = new VueRenderer(PromptMentionList, {
 					editor: suggestionProps.editor,
-					props: suggestionProps,
+					props: toMentionListProps(suggestionProps),
 				})
 
 				if (renderer.element) {
-					unmount = suggestionProps.mount(renderer.element)
+					unmount = suggestionProps.mount(renderer.element as HTMLElement)
 				}
 			},
 			onUpdate: (suggestionProps: MentionSuggestionProps) => {
-				renderer?.updateProps(suggestionProps)
+				renderer?.updateProps(toMentionListProps(suggestionProps))
 			},
 			onKeyDown: (keyDownProps: SuggestionKeyDownProps) => {
 				return renderer?.ref?.onKeyDown(keyDownProps) ?? false
@@ -120,6 +125,13 @@ function createMentionSuggestion() {
 				unmount = undefined
 			},
 		}),
+	}
+}
+
+function toMentionListProps(suggestionProps: MentionSuggestionProps) {
+	return {
+		items: suggestionProps.items,
+		command: (item: PromptMentionItem) => suggestionProps.command(item),
 	}
 }
 </script>

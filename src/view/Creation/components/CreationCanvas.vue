@@ -69,7 +69,7 @@ import { Copy, ImagePlus, Plus, Trash2 } from '@lucide/vue'
 import { Controls } from '@vue-flow/controls'
 import { MarkerType, useVueFlow, VueFlow } from '@vue-flow/core'
 import { MiniMap } from '@vue-flow/minimap'
-import { onBeforeUnmount, onMounted, ref, shallowRef, useTemplateRef } from 'vue'
+import { onBeforeUnmount, onMounted, shallowRef, useTemplateRef } from 'vue'
 import { getCanvasApi } from '@/api/canvas'
 import { postOssUploadFilesApi } from '@/api/oss'
 import {
@@ -89,8 +89,8 @@ import '@vue-flow/controls/dist/style.css'
 import '@vue-flow/minimap/dist/style.css'
 
 const fileInput = useTemplateRef<HTMLInputElement>('fileInput')
-const nodes = ref<Node<ImageNodeData>[]>([])
-const edges = ref<Edge[]>([])
+const nodes = shallowRef<Node<ImageNodeData>[]>([])
+const edges = shallowRef<Edge[]>([])
 const isUploading = shallowRef(false)
 const contextMenuPosition = shallowRef<XYPosition | null>(null)
 
@@ -143,12 +143,15 @@ function handleEdgesChange(changes: EdgeChange[]) {
 
 function handleNodeDataUpdate({ nodeId, data }: { nodeId: string, data: Partial<ImageNodeData> }) {
 	const node = nodes.value.find(item => item.id === nodeId)
-	if (!node) {
+	if (!node?.data) {
 		return
 	}
 
-	const nextData = { ...node.data, ...data }
-	nodes.value = nodes.value.map(item => item.id === nodeId ? { ...item, data: nextData } : item)
+	const nextData: ImageNodeData = { ...node.data, ...data }
+	const nextNodes = nodes.value.map((item): Node<ImageNodeData> => {
+		return item.id === nodeId ? { ...item, data: nextData } : item
+	})
+	nodes.value = nextNodes
 	canvasSaveQueue.patchNode(nodeId, { data: nextData })
 }
 
@@ -288,7 +291,13 @@ async function fetchCanvasVersion() {
 	}
 }
 
-fetchCanvasData()
+onMounted(() => {
+	void fetchCanvasData()
+})
+
+onBeforeUnmount(() => {
+	canvasSaveQueue.dispose()
+})
 </script>
 
 <style scoped>

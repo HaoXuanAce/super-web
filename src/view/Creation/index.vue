@@ -19,5 +19,4 @@
 <script setup lang="ts">
 import CreationCanvas from './components/CreationCanvas.vue'
 import CreationTopNav from './components/CreationTopNav.vue'
-import FloatingChatPanel from './components/FloatingChatPanel.vue'
 </script>

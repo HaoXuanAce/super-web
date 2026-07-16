@@ -1,5 +1,4 @@
 import type { Edge, Node } from '@vue-flow/core'
-import type { CSSProperties } from 'vue'
 import type { ImageNodeData } from './components/nodes/types'
 import type {
 	ICanvasDetailRes,
@@ -15,7 +14,7 @@ export function toFlowNodes(records: ICanvasNodeRecord[]): Node<ImageNodeData>[]
 		type: record.type,
 		position: record.position,
 		data: record.data as ImageNodeData,
-		style: record.style as CSSProperties | undefined,
+		style: record.style === null ? undefined : record.style as Node<ImageNodeData>['style'],
 		width: record.width ?? undefined,
 		height: record.height ?? undefined,
 	}))
@@ -42,7 +41,7 @@ export function toCanvasNodeCreate(node: Node<ImageNodeData>): ICanvasNodeCreate
 		id: node.id,
 		type: node.type,
 		position: node.position,
-		data: node.data,
+		data: node.data ?? {},
 		width: toNumber(node.width),
 		height: toNumber(node.height),
 	}
@@ -68,11 +67,11 @@ export function toFlowCanvas(detail: ICanvasDetailRes) {
 	}
 }
 
-function toNumber(value: number | string | null | undefined): number | undefined {
-	if (value === null || value === undefined) {
+function toNumber(value: unknown): number | undefined {
+	if (typeof value !== 'number' && typeof value !== 'string') {
 		return undefined
 	}
 
-	const parsed = typeof value === 'number' ? value : Number(value)
+	const parsed = Number(value)
 	return Number.isFinite(parsed) ? parsed : undefined
 }
