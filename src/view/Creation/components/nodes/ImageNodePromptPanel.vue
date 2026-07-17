@@ -103,7 +103,7 @@
 
 					<div class="flex items-center gap-2 text-xs text-slate-500">
 						<span>25</span>
-						<Button class="size-8 rounded-full bg-slate-950 p-0 text-white hover:bg-slate-800" size="icon" aria-label="生成">
+						<Button class="size-8 rounded-full bg-slate-950 p-0 text-white hover:bg-slate-800" size="icon" aria-label="生成" @click="handleCreate">
 							<ArrowUp class="size-4" />
 						</Button>
 					</div>
@@ -133,12 +133,16 @@ import PromptEditor from '../PromptEditor.vue'
 import FilterLibraryPopover from './FilterLibraryPopover.vue'
 import PopularImageDialog from './PopularImageDialog.vue'
 
-const props = defineProps<{
+interface Props {
 	data: ImageNodeData
-}>()
-const emit = defineEmits<{
-	'update:data': [data: Partial<ImageNodeData>]
-}>()
+}
+
+interface Emits {
+	(e: 'update:data', data: Partial<ImageNodeData>): void
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
 
 const { overlayStyle } = useFlowOverlayScale({
 	transformOrigin: 'top center',
@@ -198,6 +202,10 @@ const nodeMentionItems: PromptMentionItem[] = [
 	{ id: 'reference-style', label: '风格参考', description: '参考图片风格、构图与光影' },
 	{ id: 'masked-area', label: '蒙版区域', description: '只在指定局部重新生成内容' },
 ]
+
+const handleCreate = async () => {
+
+}
 
 function setSelectOpen(open: boolean) {
 	openSelect.value = open

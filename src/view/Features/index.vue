@@ -6,7 +6,9 @@
 			title="从人像微调到完整画面重塑">
 			<template #actions>
 				<Button as-child class="bg-stone-950 text-white hover:bg-stone-800">
-					<RouterLink to="/creation">开始创作</RouterLink>
+					<RouterLink to="/creation">
+						开始创作
+					</RouterLink>
 				</Button>
 			</template>
 		</PageIntro>
@@ -21,8 +23,12 @@
 					<span class="flex size-10 items-center justify-center rounded-md" :class="feature.iconClass">
 						<component :is="feature.icon" class="size-5" />
 					</span>
-					<h2 class="mt-6 text-xl font-semibold text-stone-950">{{ feature.title }}</h2>
-					<p class="mt-3 max-w-xl text-sm leading-7 text-stone-600">{{ feature.description }}</p>
+					<h2 class="mt-6 text-xl font-semibold text-stone-950">
+						{{ feature.title }}
+					</h2>
+					<p class="mt-3 max-w-xl text-sm leading-7 text-stone-600">
+						{{ feature.description }}
+					</p>
 					<ul class="mt-5 grid gap-2 text-sm text-stone-700 sm:grid-cols-2">
 						<li v-for="item in feature.items" :key="item" class="flex items-center gap-2">
 							<span class="size-1.5 rounded-full bg-stone-400" />

@@ -29,7 +29,9 @@
 							</RouterLink>
 						</Button>
 						<Button as-child class="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white" size="lg" variant="outline">
-							<RouterLink to="/features">查看产品能力</RouterLink>
+							<RouterLink to="/features">
+								查看产品能力
+							</RouterLink>
 						</Button>
 					</div>
 					<div class="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-white/65 sm:text-sm">

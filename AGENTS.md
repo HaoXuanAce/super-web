@@ -182,3 +182,26 @@ template 在前 script 在后
 
 # tailwindcss  
 text-[12px] 字体大小 不要用[]写死 用 tailwindcss 预设 text-xs text-sm text-lg text-xl 这种
+
+
+# defineProps  defineEmits 
+
+~~~ts
+// Bad
+const props = defineProps<{
+	data: ImageNodeData
+}>()
+const emit = defineEmits<{
+	'update:data': [data: Partial<ImageNodeData>]
+}>()
+
+// Good
+interface Props {
+  data:any
+}
+interface Emits {
+    (e: 'close'): void
+}
+const props = defineProps<Props>()
+const emits = defineEmits<Emits>()
+~~~

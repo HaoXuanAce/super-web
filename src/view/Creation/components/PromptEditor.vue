@@ -17,11 +17,13 @@ import { EditorContent, useEditor, VueRenderer } from '@tiptap/vue-3'
 import { watch } from 'vue'
 import PromptMentionList from './PromptMentionList.vue'
 
-const props = withDefaults(defineProps<{
+interface Props {
 	mentions?: PromptMentionItem[]
 	placeholder?: string
 	editorClass?: string
-}>(), {
+}
+
+const props = withDefaults(defineProps<Props>(), {
 	mentions: () => [],
 	placeholder: '',
 	editorClass: '',

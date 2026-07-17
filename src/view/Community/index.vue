@@ -6,7 +6,9 @@
 			title="从别人的调整过程找到新灵感">
 			<template #actions>
 				<Button as-child class="bg-stone-950 text-white hover:bg-stone-800">
-					<RouterLink to="/creation">发布第一件作品</RouterLink>
+					<RouterLink to="/creation">
+						发布第一件作品
+					</RouterLink>
 				</Button>
 			</template>
 		</PageIntro>
@@ -15,8 +17,12 @@
 			<div class="grid overflow-hidden rounded-md border border-stone-200 lg:grid-cols-[0.75fr_1.25fr]">
 				<div class="bg-stone-950 p-8 text-white sm:p-10">
 					<Users class="size-6 text-amber-300" />
-					<h2 class="mt-8 text-2xl font-semibold">首批创作者招募中</h2>
-					<p class="mt-4 text-sm leading-7 text-stone-300">社区会展示原图、提示词和生成分支。你可以分享完整方法，也可以收藏别人公开的修图方案。</p>
+					<h2 class="mt-8 text-2xl font-semibold">
+						首批创作者招募中
+					</h2>
+					<p class="mt-4 text-sm leading-7 text-stone-300">
+						社区会展示原图、提示词和生成分支。你可以分享完整方法，也可以收藏别人公开的修图方案。
+					</p>
 					<Button as-child class="mt-8 bg-white text-stone-950 hover:bg-stone-100" size="sm">
 						<RouterLink to="/creation">
 							开始创作
@@ -31,8 +37,12 @@
 							<component :is="category.icon" class="size-5" />
 						</span>
 						<div>
-							<h3 class="font-semibold text-stone-950">{{ category.title }}</h3>
-							<p class="mt-1 text-sm leading-6 text-stone-500">{{ category.description }}</p>
+							<h3 class="font-semibold text-stone-950">
+								{{ category.title }}
+							</h3>
+							<p class="mt-1 text-sm leading-6 text-stone-500">
+								{{ category.description }}
+							</p>
 						</div>
 						<ChevronRight class="hidden size-4 text-stone-300 sm:block" />
 					</div>

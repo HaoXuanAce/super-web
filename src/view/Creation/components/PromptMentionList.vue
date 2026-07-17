@@ -25,10 +25,12 @@ import type { SuggestionKeyDownProps } from '@tiptap/suggestion'
 import type { PromptMentionItem } from './prompt-mentions'
 import { nextTick, shallowRef, useTemplateRef, watch } from 'vue'
 
-const props = defineProps<{
+interface Props {
 	items: PromptMentionItem[]
 	command: (item: PromptMentionItem) => void
-}>()
+}
+
+const props = defineProps<Props>()
 
 const list = useTemplateRef<HTMLElement>('list')
 const selectedIndex = shallowRef(0)

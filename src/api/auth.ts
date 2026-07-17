@@ -1,4 +1,3 @@
-import request from '@/utils/request'
 import type {
 	IAuthRes,
 	IEmailLoginParams,
@@ -8,6 +7,7 @@ import type {
 	IRequestPhoneCodeParams,
 	IRequestPhoneCodeRes,
 } from './interface/auth'
+import request from '@/utils/request'
 
 export const postRegisterApi = (data: IRegisterParams) => {
 	return request.post<IAuthRes>('/auth/register', data)

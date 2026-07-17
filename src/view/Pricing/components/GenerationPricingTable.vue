@@ -170,20 +170,20 @@
 						</p>
 					</div>
 				</div>
-			<div class="flex items-center gap-3 border border-amber-300 bg-white p-5 text-stone-950">
-				<span class="flex size-9 shrink-0 items-center justify-center rounded-md bg-amber-100 text-amber-800">
-					<Gift class="size-4" />
-				</span>
-				<div>
-					<p class="text-xs font-semibold text-amber-800">
-						免费领取体验额度
-					</p>
-					<p class="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm font-medium">
-						<span>微信添加</span>
-						<strong class="text-lg text-stone-950">17640659681</strong>
-						<span class="text-amber-700">免费送 ¥3</span>
-					</p>
-				</div>
+				<div class="flex items-center gap-3 border border-amber-300 bg-white p-5 text-stone-950">
+					<span class="flex size-9 shrink-0 items-center justify-center rounded-md bg-amber-100 text-amber-800">
+						<Gift class="size-4" />
+					</span>
+					<div>
+						<p class="text-xs font-semibold text-amber-800">
+							免费领取体验额度
+						</p>
+						<p class="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm font-medium">
+							<span>微信添加</span>
+							<strong class="text-lg text-stone-950">17640659681</strong>
+							<span class="text-amber-700">免费送 ¥3</span>
+						</p>
+					</div>
 				</div>
 			</div>
 		</section>

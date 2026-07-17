@@ -21,9 +21,9 @@ import { X } from '@lucide/vue'
 import { reactiveOmit } from '@vueuse/core'
 import {
 	DialogClose,
-	DialogContent as RekaDialogContent,
 	DialogOverlay,
 	DialogPortal,
+	DialogContent as RekaDialogContent,
 	useForwardPropsEmits,
 } from 'reka-ui'
 import { cn } from '@/lib/utils'

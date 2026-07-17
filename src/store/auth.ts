@@ -1,6 +1,6 @@
-import { computed, shallowRef } from 'vue'
-import { defineStore } from 'pinia'
 import type { IAuthRes, IUserProfile } from '@/api/interface/auth'
+import { defineStore } from 'pinia'
+import { computed, shallowRef } from 'vue'
 
 export const useAuthStore = defineStore(
 	'auth',

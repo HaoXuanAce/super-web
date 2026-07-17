@@ -35,8 +35,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { Coins, WandSparkles } from '@lucide/vue'
+import { computed } from 'vue'
 
 const navItems = [
 	{ label: '首页', to: '/', active: false },

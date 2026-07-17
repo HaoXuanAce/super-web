@@ -1,5 +1,5 @@
 <template>
-	<Dialog :open="open" @update:open="emit('update:open', $event)">
+	<Dialog :open="props.open" @update:open="emit('update:open', $event)">
 		<DialogTrigger as-child>
 			<button class="flex h-8 items-center gap-1 text-xs text-slate-600 outline-none transition hover:text-slate-950 focus-visible:ring-1 focus-visible:ring-slate-400" type="button">
 				<Images class="size-3.5 text-slate-400" />
@@ -13,7 +13,9 @@
 				<aside class="flex min-h-0 flex-col border-b border-slate-200 bg-slate-50 md:border-b-0 md:border-r">
 					<div class="p-5 pr-12">
 						<DialogTitle>热门图片</DialogTitle>
-						<DialogDescription class="mt-1">选择图片作为创作参考</DialogDescription>
+						<DialogDescription class="mt-1">
+							选择图片作为创作参考
+						</DialogDescription>
 					</div>
 
 					<nav class="flex gap-1 overflow-x-auto px-3 pb-3 md:flex-col md:overflow-y-auto">
@@ -33,8 +35,12 @@
 				<div class="flex min-h-0 flex-col bg-white">
 					<div class="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4 pr-12 sm:px-6">
 						<div>
-							<p class="text-sm font-semibold text-slate-950">{{ activeCategoryLabel }}</p>
-							<p class="mt-1 text-xs text-slate-500">{{ filteredImages.length }} 个可用参考</p>
+							<p class="text-sm font-semibold text-slate-950">
+								{{ activeCategoryLabel }}
+							</p>
+							<p class="mt-1 text-xs text-slate-500">
+								{{ filteredImages.length }} 个可用参考
+							</p>
 						</div>
 						<label class="relative block w-52 max-w-full">
 							<Search class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
@@ -53,7 +59,9 @@
 									<ImageIcon class="size-6" />
 									<span class="text-xs">图片占位</span>
 								</div>
-								<p class="truncate px-3 py-2 text-sm font-medium text-slate-700">{{ image.title }}</p>
+								<p class="truncate px-3 py-2 text-sm font-medium text-slate-700">
+									{{ image.title }}
+								</p>
 							</button>
 						</div>
 
@@ -70,8 +78,8 @@
 
 <script setup lang="ts">
 import type { Component } from 'vue'
-import { computed, shallowRef } from 'vue'
 import { ChevronDown, Image as ImageIcon, Images, Mountain, ShoppingBag, Sparkles, UserRound } from '@lucide/vue'
+import { computed, shallowRef } from 'vue'
 import {
 	Dialog,
 	DialogContent,
@@ -94,13 +102,16 @@ interface PopularImage {
 	category: Exclude<PopularImageCategory, 'all'>
 }
 
-defineProps<{
+interface Props {
 	open: boolean
-}>()
+}
 
-const emit = defineEmits<{
-	'update:open': [open: boolean]
-}>()
+interface Emits {
+	(e: 'update:open', open: boolean): void
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
 
 const activeCategory = shallowRef<PopularImageCategory>('all')
 const searchQuery = shallowRef('')

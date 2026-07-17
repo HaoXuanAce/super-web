@@ -1,5 +1,5 @@
 <template>
-	<Popover :open="open" @update:open="emit('update:open', $event)">
+	<Popover :open="props.open" @update:open="emit('update:open', $event)">
 		<div class="flex h-8 items-center gap-1">
 			<PopoverTrigger as-child>
 				<button
@@ -24,7 +24,9 @@
 		<PopoverContent align="center" class="w-[32rem] max-w-[calc(100vw-2rem)] border-slate-200 bg-white p-4 shadow-xl shadow-slate-900/15" side="top" :side-offset="12">
 			<div class="space-y-3">
 				<div class="flex items-center justify-between gap-4">
-					<h3 class="text-base font-semibold text-slate-950">风格库</h3>
+					<h3 class="text-base font-semibold text-slate-950">
+						风格库
+					</h3>
 					<label class="relative block w-40">
 						<Search class="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
 						<input
@@ -78,24 +80,27 @@
 
 <script setup lang="ts">
 import type { FilterOption, FilterScene } from './filter-library'
-import { computed, shallowRef, watch } from 'vue'
 import { ChevronDown, ImageIcon, Search, X } from '@lucide/vue'
+import { computed, shallowRef, watch } from 'vue'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
-const props = defineProps<{
+interface Props {
 	open: boolean
-}>()
+}
 
-const emit = defineEmits<{
-	'update:open': [open: boolean]
-}>()
+interface Emits {
+	(e: 'update:open', open: boolean): void
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
 
 const selectedFilter = defineModel<FilterOption | null>({ default: null })
 const activeScene = shallowRef<FilterScene>('portrait')
 const searchQuery = shallowRef('')
 const visibleCount = shallowRef(9)
 
-const sceneTabs: { label: string; scene: FilterScene }[] = [
+const sceneTabs: { label: string, scene: FilterScene }[] = [
 	{ label: '人像', scene: 'portrait' },
 	{ label: '风景', scene: 'landscape' },
 	{ label: '自拍', scene: 'selfie' },
@@ -181,7 +186,7 @@ const filteredFilters = computed(() => {
 		return filters
 	}
 
-	return filters.filter((filter) => `${filter.name}${filter.category}`.toLowerCase().includes(keyword))
+	return filters.filter(filter => `${filter.name}${filter.category}`.toLowerCase().includes(keyword))
 })
 
 const visibleFilters = computed(() => filteredFilters.value.slice(0, visibleCount.value))

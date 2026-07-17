@@ -36,15 +36,18 @@ import { computed } from 'vue'
 import ImageNodeActionBar from './ImageNodeActionBar.vue'
 import ImageNodePromptPanel from './ImageNodePromptPanel.vue'
 
-const props = defineProps<{
+interface Props {
 	id: string
 	data: ImageNodeData
 	selected?: boolean
-}>()
+}
 
-const emit = defineEmits<{
-	'update:data': [payload: { nodeId: string, data: Partial<ImageNodeData> }]
-}>()
+interface Emits {
+	(e: 'update:data', payload: { nodeId: string, data: Partial<ImageNodeData> }): void
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
 
 const isPortraitNode = computed(() => props.data.aspectRatio === '9:16')
 </script>

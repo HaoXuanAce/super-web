@@ -24,22 +24,38 @@
 						<component :is="step.icon" class="size-5" />
 					</div>
 					<div>
-						<p class="text-xs font-semibold text-blue-700">步骤 0{{ index + 1 }}</p>
-						<h2 class="mt-2 text-xl font-semibold text-stone-950">{{ step.title }}</h2>
-						<p class="mt-2 max-w-2xl text-sm leading-6 text-stone-600">{{ step.description }}</p>
+						<p class="text-xs font-semibold text-blue-700">
+							步骤 0{{ index + 1 }}
+						</p>
+						<h2 class="mt-2 text-xl font-semibold text-stone-950">
+							{{ step.title }}
+						</h2>
+						<p class="mt-2 max-w-2xl text-sm leading-6 text-stone-600">
+							{{ step.description }}
+						</p>
 					</div>
 					<div class="border-l border-stone-200 pl-5 text-sm text-stone-500">
-						<p class="font-medium text-stone-950">{{ step.detailTitle }}</p>
-						<p class="mt-1 leading-6">{{ step.detail }}</p>
+						<p class="font-medium text-stone-950">
+							{{ step.detailTitle }}
+						</p>
+						<p class="mt-1 leading-6">
+							{{ step.detail }}
+						</p>
 					</div>
 				</article>
 			</div>
 
 			<div class="mt-12 grid overflow-hidden rounded-md border border-stone-200 lg:grid-cols-[0.8fr_1.2fr]">
 				<div class="bg-stone-950 p-8 text-white sm:p-10">
-					<p class="text-xs font-semibold text-amber-300">可持续对话</p>
-					<h2 class="mt-4 text-2xl font-semibold">结果不满意，就接着说</h2>
-					<p class="mt-4 text-sm leading-7 text-stone-300">AI 会基于当前结果继续调整。你可以逐步修改肤色、脸型、背景、光线和画幅，不必每次从头开始。</p>
+					<p class="text-xs font-semibold text-amber-300">
+						可持续对话
+					</p>
+					<h2 class="mt-4 text-2xl font-semibold">
+						结果不满意，就接着说
+					</h2>
+					<p class="mt-4 text-sm leading-7 text-stone-300">
+						AI 会基于当前结果继续调整。你可以逐步修改肤色、脸型、背景、光线和画幅，不必每次从头开始。
+					</p>
 				</div>
 				<div class="grid gap-px bg-stone-200 sm:grid-cols-3">
 					<div v-for="example in promptExamples" :key="example" class="flex min-h-36 items-end bg-white p-6 text-sm font-medium text-stone-800">

@@ -66,7 +66,9 @@
 			</NavigationMenu>
 
 			<Button as-child class="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white" size="sm" variant="outline">
-				<RouterLink to="/login">登录</RouterLink>
+				<RouterLink to="/login">
+					登录
+				</RouterLink>
 			</Button>
 			<Button as-child class="bg-white text-stone-950 hover:bg-white/85" size="sm">
 				<RouterLink to="/creation">
@@ -89,10 +91,14 @@
 			</nav>
 			<div class="mt-2 grid grid-cols-2 gap-2 border-t border-white/10 pt-2">
 				<Button as-child class="border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white" variant="outline">
-					<RouterLink to="/login">登录</RouterLink>
+					<RouterLink to="/login">
+						登录
+					</RouterLink>
 				</Button>
 				<Button as-child class="bg-white text-stone-950 hover:bg-white/85">
-					<RouterLink to="/creation">进入工作区</RouterLink>
+					<RouterLink to="/creation">
+						进入工作区
+					</RouterLink>
 				</Button>
 			</div>
 		</div>
@@ -101,7 +107,6 @@
 
 <script setup lang="ts">
 import type { Component } from 'vue'
-import { shallowRef } from 'vue'
 import {
 	ArrowUpRight,
 	Expand,
@@ -114,6 +119,7 @@ import {
 	WandSparkles,
 	X,
 } from '@lucide/vue'
+import { shallowRef } from 'vue'
 import { Button } from '@/components/ui/button'
 import {
 	NavigationMenu,
