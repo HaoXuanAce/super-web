@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FilterOption, FilterScene } from './filter-library'
+import type { FilterOption, FilterScene } from '../types'
 import { ChevronDown, ImageIcon, Search, X } from '@lucide/vue'
 import { computed, shallowRef, watch } from 'vue'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'

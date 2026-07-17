@@ -114,8 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PromptMentionItem } from '../prompt-mentions'
-import type { ImageNodeData } from './types'
+import type { ImageNodeData, PromptMentionItem } from '../types'
 import { ArrowUp, ChevronDown, Expand } from '@lucide/vue'
 import { computed, ref, shallowRef } from 'vue'
 import { Button } from '@/components/ui/button'

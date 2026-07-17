@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import type { MentionNodeAttrs } from '@tiptap/extension-mention'
 import type { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion'
-import type { PromptMentionItem } from './prompt-mentions'
+import type { PromptMentionItem } from './types'
 import Mention from '@tiptap/extension-mention'
 import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'

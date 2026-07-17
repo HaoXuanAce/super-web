@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import type { Connection, Edge, EdgeChange, Node, NodeChange, NodeDragEvent, XYPosition } from '@vue-flow/core'
-import type { ImageNodeData } from './nodes/types'
+import type { ImageNodeData } from './types'
 import type { IOssUploadedFile } from '@/api/interface/oss'
 import { Copy, ImagePlus, Plus, Trash2 } from '@lucide/vue'
 import { Controls } from '@vue-flow/controls'
@@ -81,7 +81,7 @@ import {
 	ContextMenuTrigger,
 } from '@/components/ui/context-menu'
 import { useCanvasSaveQueue } from '@/hook/useCanvasSaveQueue'
-import { toCanvasEdgeCreate, toCanvasNodeCreate, toFlowCanvas } from '../canvas-adapter'
+import { toCanvasEdgeCreate, toCanvasNodeCreate, toFlowCanvas } from '@/utils/canvas'
 import ImageNode from './nodes/ImageNode.vue'
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'

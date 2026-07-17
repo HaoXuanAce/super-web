@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ImageNodeData } from './types'
+import type { ImageNodeData } from '../types'
 import { ImageIcon, Plus } from '@lucide/vue'
 import { Handle, Position } from '@vue-flow/core'
 import { computed } from 'vue'

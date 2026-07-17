@@ -108,7 +108,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PromptMentionItem } from './prompt-mentions'
+import type { PromptMentionItem } from './types'
 import { Bot, CheckCircle2, Clock3, ImagePlus, PanelRightClose, Paperclip, SendHorizontal } from '@lucide/vue'
 import { shallowRef } from 'vue'
 import { Button } from '@/components/ui/button'

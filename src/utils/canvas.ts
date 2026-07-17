@@ -1,5 +1,4 @@
 import type { Edge, Node } from '@vue-flow/core'
-import type { ImageNodeData } from './components/nodes/types'
 import type {
 	ICanvasDetailRes,
 	ICanvasEdgeCreateParams,
@@ -7,6 +6,7 @@ import type {
 	ICanvasNodeCreateParams,
 	ICanvasNodeRecord,
 } from '@/api/interface/canvas'
+import type { ImageNodeData } from '@/view/Creation/components/types'
 
 export function toFlowNodes(records: ICanvasNodeRecord[]): Node<ImageNodeData>[] {
 	return records.map(record => ({
