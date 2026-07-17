@@ -115,8 +115,10 @@
 
 <script setup lang="ts">
 import type { ImageNodeData, PromptMentionItem } from '../types'
+import type { ICreateParams } from '@/api/interface/canvas.ts'
 import { ArrowUp, ChevronDown, Expand } from '@lucide/vue'
 import { computed, ref, shallowRef } from 'vue'
+import { postImageTaskApi } from '@/api/canvas.ts'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
@@ -203,7 +205,18 @@ const nodeMentionItems: PromptMentionItem[] = [
 ]
 
 const handleCreate = async () => {
+	const params: ICreateParams = {
+		model: 'gpt',
+		resolution: '1k',
+		ratio: '9:16',
+		prompt: '生成一只小金毛 {{Image1}} ',
+		images: [],
+		output_image_count: 1,
+		filter: '',
+		quality: 'low',
+	}
 
+	const { data } = await postImageTaskApi(params)
 }
 
 function setSelectOpen(open: boolean) {

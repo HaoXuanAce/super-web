@@ -1,5 +1,6 @@
 import type {
 	ICanvasDetailRes,
+	ICreateParams,
 	IGetHotImagesParams,
 	IHotImagesRes,
 	IUpdateCanvasParams,
@@ -20,4 +21,8 @@ export const updateCanvasApi = (data: IUpdateCanvasParams) => {
 // 获取热门图片
 export const getHotImagesApi = (params?: IGetHotImagesParams) => {
 	return request.get<IHotImagesRes>('/hot-images', params)
+}
+
+export const postImageTaskApi = (params: ICreateParams) => {
+	return request.post<any>('/images/create', params)
 }
