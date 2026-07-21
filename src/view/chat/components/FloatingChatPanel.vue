@@ -1,5 +1,5 @@
 <template>
-	<aside class="pointer-events-auto flex h-full min-h-96 w-full max-w-sm flex-col overflow-hidden rounded-lg border border-white/70 bg-white/90 shadow-2xl shadow-stone-900/20 backdrop-blur-xl">
+	<aside id="ai-chat-panel" class="pointer-events-auto flex h-full min-h-96 w-full max-w-sm flex-col overflow-hidden rounded-lg border border-white/70 bg-white/90 shadow-2xl shadow-stone-900/20 backdrop-blur-xl">
 		<div class="flex items-center justify-between border-b border-stone-200 px-4 py-4">
 			<div>
 				<div class="flex items-center gap-2">
@@ -12,7 +12,7 @@
 					可对话，也可把提示词放到画布节点
 				</p>
 			</div>
-			<Button class="rounded-lg text-stone-500 hover:bg-stone-100 hover:text-stone-950" size="icon-sm" variant="ghost">
+			<Button class="rounded-lg text-stone-500 hover:bg-stone-100 hover:text-stone-950" size="icon-sm" type="button" variant="ghost" aria-label="收起 AI 修图助手" @click="emits('close')">
 				<PanelRightClose class="size-4" />
 			</Button>
 		</div>
@@ -108,7 +108,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PromptMentionItem } from './types'
+import type { PromptMentionItem } from '@/view/chat/components/types'
 import { Bot, CheckCircle2, Clock3, ImagePlus, PanelRightClose, Paperclip, SendHorizontal } from '@lucide/vue'
 import { shallowRef } from 'vue'
 import { Button } from '@/components/ui/button'
@@ -118,7 +118,7 @@ import {
 	MessageContent,
 	MessageFooter,
 	MessageHeader,
-} from '@/components/ui/message'
+} from '@/view/chat/components/message'
 import {
 	MessageScroller,
 	MessageScrollerButton,
@@ -126,8 +126,14 @@ import {
 	MessageScrollerItem,
 	MessageScrollerProvider,
 	MessageScrollerViewport,
-} from '@/components/ui/message-scroller'
+} from '@/view/chat/components/message-scroller'
 import PromptEditor from './PromptEditor.vue'
+
+interface Emits {
+	(e: 'close'): void
+}
+
+const emits = defineEmits<Emits>()
 
 interface MockMessage {
 	id: string

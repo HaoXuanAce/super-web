@@ -19,7 +19,7 @@
 import type { HTMLAttributes } from 'vue'
 import { onBeforeUnmount, onMounted, useTemplateRef } from 'vue'
 import { cn } from '@/lib/utils'
-import { useMessageScrollerContext } from './useMessageScroller'
+import { useMessageScrollerContext } from '@/view/chat/components/message-scroller/useMessageScroller'
 
 interface Props {
 	class?: HTMLAttributes['class']

@@ -1,17 +1,17 @@
 <template>
 	<Primitive
-		data-slot="message-header"
+		data-slot="message-footer"
 		:as="as"
 		:as-child="asChild"
 		:class="cn(
-			'text-xs font-medium text-muted-foreground px-3 group-has-data-[variant=ghost]/message:px-0 flex max-w-full min-w-0 items-center',
+			'text-xs font-medium text-muted-foreground px-3 group-has-data-[variant=ghost]/message:px-0 flex max-w-full min-w-0 items-center group-data-[align=end]/message:justify-end',
 			props.class,
 		)">
 		<slot />
 	</Primitive>
 </template>
 
-<script lang='ts' setup>
+<script setup lang="ts">
 import type { PrimitiveProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { Primitive } from 'reka-ui'

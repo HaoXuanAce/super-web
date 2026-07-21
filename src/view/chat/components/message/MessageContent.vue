@@ -1,18 +1,17 @@
 <template>
 	<Primitive
-		data-slot="message"
-		:data-align="align"
+		data-slot="message-content"
 		:as="as"
 		:as-child="asChild"
 		:class="cn(
-			'text-sm gap-2 group/message relative flex w-full min-w-0 data-[align=end]:flex-row-reverse',
+			'gap-2.5 group-data-[align=end]/message:*:data-slot:self-end flex w-full min-w-0 flex-col wrap-break-word',
 			props.class,
 		)">
 		<slot />
 	</Primitive>
 </template>
 
-<script lang='ts' setup>
+<script setup lang="ts">
 import type { PrimitiveProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { Primitive } from 'reka-ui'
@@ -20,10 +19,8 @@ import { cn } from '@/lib/utils'
 
 interface Props extends PrimitiveProps {
 	class?: HTMLAttributes['class']
-	align?: 'start' | 'end'
 }
 const props = withDefaults(defineProps<Props>(), {
-	align: 'start',
 	as: 'div',
 })
 </script>

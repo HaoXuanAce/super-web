@@ -1,9 +1,3 @@
-export interface PromptMentionItem {
-	id: string
-	label: string
-	description: string
-}
-
 export type FilterScene = 'portrait' | 'landscape' | 'selfie' | 'ecommerce'
 
 export interface FilterOption {

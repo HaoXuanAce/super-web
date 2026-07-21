@@ -16,7 +16,7 @@
 import type { HTMLAttributes } from 'vue'
 import { onBeforeUnmount, onMounted, useTemplateRef, watch } from 'vue'
 import { cn } from '@/lib/utils'
-import { useMessageScrollerRegister } from './useMessageScroller'
+import { useMessageScrollerRegister } from '@/view/chat/components/message-scroller/useMessageScroller'
 
 interface Props {
 	messageId?: string

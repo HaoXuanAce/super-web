@@ -114,8 +114,9 @@
 </template>
 
 <script setup lang="ts">
-import type { ImageNodeData, PromptMentionItem } from '../types'
+import type { ImageNodeData } from '../types'
 import type { ICreateParams } from '@/api/interface/canvas.ts'
+import type { PromptMentionItem } from '@/view/chat/components/types'
 import { ArrowUp, ChevronDown, Expand } from '@lucide/vue'
 import { computed, ref, shallowRef } from 'vue'
 import { postImageTaskApi } from '@/api/canvas.ts'
@@ -130,7 +131,7 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { useFlowOverlayScale } from '@/hook/useFlowOverlayScale'
-import PromptEditor from '../PromptEditor.vue'
+import PromptEditor from '@/view/chat/components/PromptEditor.vue'
 import FilterLibraryPopover from './FilterLibraryPopover.vue'
 import PopularImageDialog from './PopularImageDialog.vue'
 

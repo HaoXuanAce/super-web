@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import type { SuggestionKeyDownProps } from '@tiptap/suggestion'
-import type { PromptMentionItem } from './types'
+import type { PromptMentionItem } from '@/view/chat/components/types'
 import { nextTick, shallowRef, useTemplateRef, watch } from 'vue'
 
 interface Props {

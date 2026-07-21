@@ -43,7 +43,7 @@ const DEFAULT_SCROLL_MARGIN = 0
 const SCROLL_EPSILON = 0.5
 const AUTOSCROLLING_TIMEOUT = 180
 
-const SCROLL_KEYS = new Set([
+export const SCROLL_KEYS = new Set([
 	'ArrowDown',
 	'ArrowUp',
 	'End',
@@ -1075,5 +1075,3 @@ export function useMessageScrollerVisibility(): Ref<MessageScrollerVisibilitySta
 	}
 	return computed(() => visibility.value)
 }
-
-export { SCROLL_KEYS }
