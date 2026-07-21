@@ -23,17 +23,33 @@ interface Props {
 	editorClass?: string
 }
 
+interface Emits {
+	(e: 'submit'): void
+}
+
 const props = withDefaults(defineProps<Props>(), {
 	mentions: () => [],
 	placeholder: '',
 	editorClass: '',
 })
+const emits = defineEmits<Emits>()
 const model = defineModel<string>({ default: '' })
 
 type MentionSuggestionProps = SuggestionProps<PromptMentionItem, MentionNodeAttrs>
 
 const editor = useEditor({
 	content: model.value,
+	editorProps: {
+		handleKeyDown: (_view, event) => {
+			if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+				event.preventDefault()
+				emits('submit')
+				return true
+			}
+
+			return false
+		},
+	},
 	extensions: [
 		StarterKit.configure({
 			blockquote: false,

@@ -217,7 +217,7 @@ const handleCreate = async () => {
 		quality: 'low',
 	}
 
-	const { data } = await postImageTaskApi(params)
+	await postImageTaskApi(params)
 }
 
 function setSelectOpen(open: boolean) {
