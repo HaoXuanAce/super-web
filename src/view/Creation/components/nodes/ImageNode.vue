@@ -1,6 +1,6 @@
 <template>
 	<div class="relative pt-7" :class="isPortraitNode ? 'w-72' : 'w-full max-w-2xl'">
-		<ImageNodeActionBar v-if="selected" />
+		<ImageNodeActionBar v-if="selected" @insert-reference="insertPromptReference" />
 
 		<div class="mb-2 flex items-center justify-between px-2 text-xs text-slate-500">
 			<span>{{ data.title }}</span>
@@ -24,15 +24,19 @@
 			<Plus class="size-5 text-slate-950" />
 		</Handle>
 
-		<ImageNodePromptPanel v-if="selected" :data="data" @update:data="emit('update:data', { nodeId: id, data: $event })" />
+		<ImageNodePromptPanel
+			v-if="selected"
+			ref="promptPanel"
+			:data="data"
+			@update:data="emit('update:data', { nodeId: id, data: $event })" />
 	</div>
 </template>
 
 <script setup lang="ts">
-import type { ImageNodeData } from '../types'
+import type { ImageNodeData, PromptReference } from '../types'
 import { ImageIcon, Plus } from '@lucide/vue'
 import { Handle, Position } from '@vue-flow/core'
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import ImageNodeActionBar from './ImageNodeActionBar.vue'
 import ImageNodePromptPanel from './ImageNodePromptPanel.vue'
 
@@ -48,6 +52,11 @@ interface Emits {
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
+const promptPanel = useTemplateRef<InstanceType<typeof ImageNodePromptPanel>>('promptPanel')
 
 const isPortraitNode = computed(() => props.data.aspectRatio === '9:16')
+
+function insertPromptReference(reference: PromptReference) {
+	promptPanel.value?.insertPromptReference(reference)
+}
 </script>

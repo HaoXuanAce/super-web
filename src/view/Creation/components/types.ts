@@ -1,11 +1,8 @@
-export type FilterScene = 'portrait' | 'landscape' | 'selfie' | 'ecommerce'
+import type { IPromptLibraryOption } from '@/api/interface/promptLibrary'
 
-export interface FilterOption {
-	id: string
-	name: string
-	category: string
-	scene: FilterScene
-}
+export type FilterOption = IPromptLibraryOption
+
+export type { PromptReference, PromptReferenceType } from '@/view/chat/components/types'
 
 export interface ImageNodeData {
 	title: string

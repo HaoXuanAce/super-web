@@ -4,6 +4,14 @@ export interface PromptMentionItem {
 	description: string
 }
 
+export type PromptReferenceType = 'filter' | 'tool' | 'hot'
+
+export interface PromptReference {
+	type: PromptReferenceType
+	id: string
+	label?: string
+}
+
 export type ChatMessageRole = 'user' | 'assistant'
 export type ChatMessageStatus = 'done' | 'connecting' | 'streaming' | 'stopped' | 'error'
 

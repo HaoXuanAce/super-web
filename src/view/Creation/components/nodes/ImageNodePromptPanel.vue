@@ -7,6 +7,7 @@
 				</button>
 
 				<PromptEditor
+					ref="promptEditor"
 					v-model="prompt"
 					editor-class="h-44 w-full border-b border-slate-200 bg-transparent px-3 py-4 pr-12 text-slate-900"
 					:mentions="nodeMentionItems"
@@ -95,10 +96,17 @@
 						</Popover>
 						<Separator class="self-center bg-slate-300 data-[orientation=vertical]:h-5" orientation="vertical" />
 
-						<FilterLibraryPopover v-model="selectedFilter" :open="isFilterOpen" @update:open="setFilterOpen" />
+						<FilterLibraryPopover
+							v-model="selectedFilter"
+							:open="isFilterOpen"
+							@insert-reference="insertPromptReference"
+							@update:open="setFilterOpen" />
 						<Separator class="self-center bg-slate-300 data-[orientation=vertical]:h-5" orientation="vertical" />
 
-						<PopularImageDialog :open="isPopularImageDialogOpen" @update:open="setPopularImageDialogOpen" />
+						<PopularImageDialog
+							:open="isPopularImageDialogOpen"
+							@insert-reference="insertPromptReference"
+							@update:open="setPopularImageDialogOpen" />
 					</div>
 
 					<div class="flex items-center gap-2 text-xs text-slate-500">
@@ -114,11 +122,11 @@
 </template>
 
 <script setup lang="ts">
-import type { ImageNodeData } from '../types'
+import type { ImageNodeData, PromptReference } from '../types'
 import type { ICreateParams } from '@/api/interface/canvas.ts'
 import type { PromptMentionItem } from '@/view/chat/components/types'
 import { ArrowUp, ChevronDown, Expand } from '@lucide/vue'
-import { computed, ref, shallowRef } from 'vue'
+import { computed, ref, shallowRef, useTemplateRef } from 'vue'
 import { postImageTaskApi } from '@/api/canvas.ts'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -145,6 +153,7 @@ interface Emits {
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
+const promptEditor = useTemplateRef<InstanceType<typeof PromptEditor>>('promptEditor')
 
 const { overlayStyle } = useFlowOverlayScale({
 	transformOrigin: 'top center',
@@ -210,15 +219,21 @@ const handleCreate = async () => {
 		model: 'gpt',
 		resolution: '1k',
 		ratio: '9:16',
-		prompt: '生成一只小金毛 {{Image1}} ',
+		prompt: prompt.value.trim(),
 		images: [],
 		output_image_count: 1,
-		filter: '',
+		filter: selectedFilter.value?.id ?? '',
 		quality: 'low',
 	}
 
 	await postImageTaskApi(params)
 }
+
+function insertPromptReference(reference: PromptReference) {
+	promptEditor.value?.insertReference(reference)
+}
+
+defineExpose({ insertPromptReference })
 
 function setSelectOpen(open: boolean) {
 	openSelect.value = open
