@@ -91,7 +91,8 @@ pipeline {
                 sh '''
                     echo "等待 Nginx 启动..."
                     for attempt in $(seq 1 15); do
-                      if docker exec ${WEB_CONTAINER_NAME} wget -qO- http://127.0.0.1/ > /dev/null; then
+                      if docker exec ${WEB_CONTAINER_NAME} nginx -t > /dev/null 2>&1 && \
+                        docker exec ${WEB_CONTAINER_NAME} wget --no-check-certificate -qO- https://127.0.0.1/ > /dev/null; then
                         echo "✅ 部署验证通过"
                         exit 0
                       fi
