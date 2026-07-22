@@ -189,7 +189,7 @@ const prompt = computed({
 	set: value => emit('update:data', { prompt: value }),
 })
 
-const modelOptions = ['火山引擎 5.0 Lite', 'GTP-image-2.0']
+const modelOptions = ['GTP-image-2.0']
 const qualityOptions = ['低画质', '标准画质', '高画质']
 const resolutionOptions = ['1K', '2K', '4K']
 const aspectRatioOptions = [

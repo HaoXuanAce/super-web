@@ -7,7 +7,8 @@
 ```text
 浏览器
   │
-  └── 阿里云安全组 / 服务器 80 端口
+  ├── 阿里云安全组 / 服务器 80 端口  → 301 重定向到 HTTPS
+  └── 阿里云安全组 / 服务器 443 端口
         │
         └── super-web（Nginx 容器）
               ├── /              → Vue 静态文件
@@ -55,6 +56,46 @@ sudo firewall-cmd --reload
 ```
 
 不要在安全组或防火墙开放 `3000`、MySQL `3306`、Redis `6379`，除非有明确的公网访问需求。
+
+## 配置 SSL / HTTPS
+
+### 1. 上传证书到服务器
+
+将阿里云下载的证书文件上传到服务器的 `/etc/nginx/ssl/` 目录：
+
+```bash
+# 在服务器上创建目录
+sudo mkdir -p /etc/nginx/ssl
+
+# 在本地上传（替换为你的服务器 IP）
+scp www.shxvoid.top.pem root@你的服务器IP:/etc/nginx/ssl/fullchain.pem
+scp www.shxvoid.top.key root@你的服务器IP:/etc/nginx/ssl/privkey.pem
+
+# 设置权限
+sudo chmod 644 /etc/nginx/ssl/fullchain.pem
+sudo chmod 600 /etc/nginx/ssl/privkey.pem
+```
+
+### 2. 放行 443 端口
+
+阿里云控制台安全组入方向放行 TCP `443`；服务器防火墙：
+
+```bash
+sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --reload
+```
+
+### 3. Jenkinsfile 已配置的域名
+
+Jenkinsfile 中 `SERVER_NAME = 'www.shxvoid.top'` 已设置，无需修改。
+
+### 4. 证书续期提醒
+
+阿里云证书有效期为 1 年，到期前需重新下载并替换 `/etc/nginx/ssl/` 下的文件，然后执行：
+
+```bash
+docker exec super-web nginx -s reload
+```
 
 ## 首次部署后端
 

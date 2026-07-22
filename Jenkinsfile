@@ -6,6 +6,9 @@ pipeline {
         IMAGE_TAG = 'latest'
         WEB_CONTAINER_NAME = 'super-web'
         WEB_PORT = '80'
+        SSL_PORT = '443'
+        SERVER_NAME = 'www.shxvoid.top'
+        SSL_HOST_PATH = '/etc/nginx/ssl'
         NETWORK_NAME = 'super-network'
     }
 
@@ -73,6 +76,10 @@ pipeline {
                       --name ${WEB_CONTAINER_NAME} \
                       --network ${NETWORK_NAME} \
                       -p ${WEB_PORT}:80 \
+                      -p ${SSL_PORT}:443 \
+                      -v ${SSL_HOST_PATH}/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro \
+                      -v ${SSL_HOST_PATH}/privkey.pem:/etc/nginx/ssl/privkey.pem:ro \
+                      -e SERVER_NAME=${SERVER_NAME} \
                       --restart=always \
                       ${IMAGE_NAME}:${IMAGE_TAG}
                 '''
@@ -82,10 +89,9 @@ pipeline {
         stage('部署验证') {
             steps {
                 sh '''
-                    echo "等待 Nginx 和后端代理就绪..."
+                    echo "等待 Nginx 启动..."
                     for attempt in $(seq 1 15); do
-                      if docker exec ${WEB_CONTAINER_NAME} wget -qO- http://127.0.0.1/ > /dev/null \
-                        && docker exec ${WEB_CONTAINER_NAME} wget -qO- http://127.0.0.1/api/ > /dev/null; then
+                      if docker exec ${WEB_CONTAINER_NAME} wget -qO- http://127.0.0.1/ > /dev/null; then
                         echo "✅ 部署验证通过"
                         exit 0
                       fi

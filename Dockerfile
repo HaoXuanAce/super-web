@@ -17,5 +17,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 # 后端容器在同一 Docker 网络中的名称和端口。
 ENV API_UPSTREAM=super-server:3000
+ENV SERVER_NAME=_
 
 EXPOSE 80
+EXPOSE 443
