@@ -11,8 +11,8 @@
 						<Skull class="size-5" />
 					</span>
 					<div>
-						<p class="font-mono text-sm font-black uppercase tracking-widest">OFFBOARDING.EXE</p>
-						<p class="text-xs text-stone-500">下班审批服务 · 极不稳定</p>
+						<p class="font-mono text-sm font-black uppercase tracking-widest">WEI-OFFBOARDING.EXE</p>
+						<p class="text-xs text-stone-500">小魏同学专属下班审批服务 · 极不稳定</p>
 					</div>
 				</div>
 
@@ -37,11 +37,12 @@
 				<div>
 					<div class="mb-5 flex flex-wrap gap-2 font-mono text-xs font-black">
 						<span class="border-2 border-stone-950 bg-red-500 px-3 py-1 text-white">警告：可能破坏友情</span>
-						<span class="border-2 border-stone-950 bg-white px-3 py-1">八关自由选择 · 记录单独保留</span>
+						<span class="border-2 border-stone-950 bg-white px-3 py-1">十二关自由选择 · 记录单独保留</span>
+						<span class="animate-pulse border-2 border-stone-950 bg-lime-300 px-3 py-1">小魏同学，你能行吗？</span>
 					</div>
 					<p class="font-mono text-xs font-black uppercase tracking-[0.3em] text-red-600">The impossible off-work approval</p>
 					<h1 class="mt-3 max-w-5xl font-serif text-5xl font-black leading-none tracking-tight sm:text-7xl lg:text-8xl">
-						想下班？<br>
+						小魏同学，想下班？<br>
 						<span class="relative text-red-600">先证明你配。</span>
 					</h1>
 				</div>
@@ -50,7 +51,7 @@
 					<Flame class="size-8" />
 					<p class="mt-5 font-serif text-2xl font-black">友情测试协议</p>
 					<p class="mt-3 text-sm leading-6 text-stone-700">
-						第一到第八关都能直接选择。单关失败只重开当前游戏，八关全部完成即可获得下班批准。
+						第一到第十二关都能直接选择。小魏同学，不会有人连这么简单的小游戏都过不了吧？
 					</p>
 				</div>
 			</div>
@@ -58,8 +59,8 @@
 			<RageChallenge class="mt-8" />
 
 			<footer class="mt-10 flex flex-col gap-3 border-t-2 border-stone-950 pt-5 font-mono text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
-				<p>本系统不对键盘、鼠标及同事情绪负责。</p>
-				<p>投诉入口正在维护中，预计永不恢复。</p>
+				<p>本系统不对小魏同学的键盘、鼠标及情绪负责。</p>
+				<p>小魏同学专属投诉入口正在维护中，预计永不恢复。</p>
 			</footer>
 		</section>
 
