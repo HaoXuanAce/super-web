@@ -4,13 +4,13 @@
 			<p class="font-mono text-xs font-black uppercase tracking-widest text-red-600">Stage 04 / Final Rejection</p>
 			<h3 class="mt-3 font-serif text-4xl font-black sm:text-5xl">最终审批</h3>
 			<p class="mt-4 text-sm leading-7 text-stone-600">
-				绿色按钮会躲开鼠标。连续逼退它 8 次后，只有 0.7 秒可以完成点击。20 秒内没抓住，前三关全部作废。
+				绿色按钮会躲开鼠标。连续逼退它 {{ REQUIRED_ESCAPES }} 次后，有 {{ VULNERABILITY_WINDOW_SECONDS }} 秒可以完成点击。
 			</p>
 
 			<div class="mt-6 grid grid-cols-2 gap-3 font-mono">
 				<div class="border-2 border-stone-950 bg-lime-300 p-3 shadow-md">
 					<p class="text-xs text-stone-600">逼退次数</p>
-					<p class="mt-1 text-3xl font-black">{{ escapeCount }}/8</p>
+					<p class="mt-1 text-3xl font-black">{{ escapeCount }}/{{ REQUIRED_ESCAPES }}</p>
 				</div>
 				<div class="border-2 border-stone-950 p-3 shadow-md" :class="timeLeft < 6 ? 'animate-pulse bg-red-500 text-white' : 'bg-white'">
 					<p class="text-xs opacity-60">审批超时</p>
@@ -70,11 +70,14 @@ interface Position {
 }
 
 const emit = defineEmits<Emits>()
+const REQUIRED_ESCAPES = 4
+const ROUND_DURATION_SECONDS = 30
+const VULNERABILITY_WINDOW_SECONDS = 1.5
 const phase = shallowRef<'intro' | 'playing'>('intro')
 const position = shallowRef<Position>({ x: 50, y: 55 })
 const escapeCount = shallowRef(0)
 const vulnerable = shallowRef(false)
-const timeLeft = shallowRef(20)
+const timeLeft = shallowRef(ROUND_DURATION_SECONDS)
 let endAt = 0
 let countdownTimer: ReturnType<typeof window.setInterval> | undefined
 let vulnerabilityTimer: ReturnType<typeof window.setTimeout> | undefined
@@ -83,9 +86,9 @@ function start() {
 	phase.value = 'playing'
 	escapeCount.value = 0
 	vulnerable.value = false
-	timeLeft.value = 20
+	timeLeft.value = ROUND_DURATION_SECONDS
 	position.value = { x: 50, y: 55 }
-	endAt = performance.now() + 20000
+	endAt = performance.now() + ROUND_DURATION_SECONDS * 1000
 	countdownTimer = window.setInterval(updateCountdown, 100)
 }
 
@@ -97,7 +100,7 @@ function dodge() {
 	escapeCount.value += 1
 	moveTarget()
 
-	if (escapeCount.value >= 8) {
+	if (escapeCount.value >= REQUIRED_ESCAPES) {
 		openVulnerabilityWindow()
 	}
 }
@@ -119,9 +122,9 @@ function openVulnerabilityWindow() {
 	}
 	vulnerabilityTimer = window.setTimeout(() => {
 		vulnerable.value = false
-		escapeCount.value = 5
+		escapeCount.value = Math.max(0, REQUIRED_ESCAPES - 2)
 		moveTarget()
-	}, 700)
+	}, VULNERABILITY_WINDOW_SECONDS * 1000)
 }
 
 function moveTarget() {

@@ -4,7 +4,7 @@
 			<p class="font-mono text-xs font-black uppercase tracking-widest text-red-600">Stage 01 / Visual Panic</p>
 			<h3 class="mt-3 font-serif text-4xl font-black sm:text-5xl">数字追杀</h3>
 			<p class="mt-4 text-sm leading-7 text-stone-600">
-				从 1 点到 24。每点对一个，所有剩余数字都会重新洗牌。点错一次或超过 {{ ROUND_DURATION_SECONDS }} 秒，当前关卡重新开始。
+				从 1 点到 {{ NUMBER_COUNT }}。每点完 4 个数字才会重新洗牌。点错一次或超过 {{ ROUND_DURATION_SECONDS }} 秒，当前关卡重新开始。
 			</p>
 
 			<div class="mt-6 grid grid-cols-2 gap-3 font-mono">
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 
-			<div class="grid grid-cols-6 gap-1.5 sm:grid-cols-8 sm:gap-2">
+			<div class="grid grid-cols-4 gap-1.5 sm:grid-cols-8 sm:gap-2">
 				<button
 					v-for="(slot, index) in slots"
 					:key="index"
@@ -62,7 +62,8 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>()
-const ROUND_DURATION_SECONDS = 22
+const ROUND_DURATION_SECONDS = 60
+const NUMBER_COUNT = 16
 const phase = shallowRef<'intro' | 'playing'>('intro')
 const expected = shallowRef(1)
 const timeLeft = shallowRef(ROUND_DURATION_SECONDS)
@@ -88,14 +89,18 @@ function choose(value: number) {
 		return
 	}
 
-	if (expected.value === 24) {
+	if (expected.value === NUMBER_COUNT) {
 		stopTimer()
 		emit('complete')
 		return
 	}
 
 	expected.value += 1
-	slots.value = createSlots(expected.value)
+	if ((expected.value - 1) % 4 === 0) {
+		slots.value = createSlots(expected.value)
+	} else {
+		slots.value = slots.value.map(slot => slot === value ? null : slot)
+	}
 }
 
 function updateTimer() {
@@ -107,8 +112,8 @@ function updateTimer() {
 }
 
 function createSlots(from: number): Array<number | null> {
-	const remaining = Array.from({ length: 25 - from }, (_, index) => from + index)
-	const blanks = Array.from({ length: 24 - remaining.length }, () => null)
+	const remaining = Array.from({ length: NUMBER_COUNT - from + 1 }, (_, index) => from + index)
+	const blanks = Array.from({ length: NUMBER_COUNT - remaining.length }, () => null)
 	return shuffle([...remaining, ...blanks])
 }
 

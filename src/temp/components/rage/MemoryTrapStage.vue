@@ -4,7 +4,7 @@
 			<p class="font-mono text-xs font-black uppercase tracking-widest text-red-600">Stage 02 / Memory Audit</p>
 			<h3 class="mt-3 font-serif text-4xl font-black sm:text-5xl">记忆审讯</h3>
 			<p class="mt-4 text-sm leading-7 text-stone-600">
-				系统会闪烁三轮符号，长度分别为 5、7、9。按原顺序复现，任何一次误触都会清空前一关成绩。
+				系统会闪烁三轮符号，长度分别为 3、4、5。按原顺序复现，符号现在会停留得更久。
 			</p>
 
 			<div class="mt-6 border-2 border-stone-950 bg-amber-300 p-4 font-mono shadow-md">
@@ -68,7 +68,7 @@ const tokens = [
 	{ id: 7, symbol: '☀' },
 	{ id: 8, symbol: '♞' },
 ]
-const roundLengths = [5, 7, 9]
+const roundLengths = [3, 4, 5]
 const phase = shallowRef<'intro' | 'playback' | 'input' | 'between'>('intro')
 const round = shallowRef(0)
 const activeToken = shallowRef<number | null>(null)
@@ -92,7 +92,7 @@ function begin() {
 function startRound() {
 	clearTimers()
 	inputIndex.value = 0
-	const length = roundLengths[round.value] ?? 5
+	const length = roundLengths[round.value] ?? 3
 	sequence.value = Array.from({ length }, () => Math.floor(Math.random() * tokens.length))
 	phase.value = 'playback'
 	playAt(0)
@@ -111,8 +111,8 @@ function playAt(index: number) {
 	activeToken.value = token
 	schedule(() => {
 		activeToken.value = null
-		schedule(() => playAt(index + 1), 170)
-	}, 430)
+		schedule(() => playAt(index + 1), 260)
+	}, 650)
 }
 
 function choose(tokenId: number) {

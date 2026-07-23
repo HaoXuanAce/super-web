@@ -4,7 +4,7 @@
 			<p class="font-mono text-xs font-black uppercase tracking-widest text-red-600">Stage 03 / Stability Check</p>
 			<h3 class="mt-3 font-serif text-4xl font-black sm:text-5xl">别松手</h3>
 			<p class="mt-4 text-sm leading-7 text-stone-600">
-				按住红色按钮整整 7 秒。按钮会持续移动，鼠标离开、松手或触控中断都会让前两关白玩。
+				按住红色按钮 {{ HOLD_DURATION_SECONDS }} 秒。按钮会缓慢移动，跟着它走就能顺利通过。
 			</p>
 
 			<div class="mt-6 border-2 border-stone-950 bg-white p-4 font-mono shadow-md">
@@ -71,6 +71,7 @@ interface Position {
 }
 
 const emit = defineEmits<Emits>()
+const HOLD_DURATION_SECONDS = 4
 const target = useTemplateRef<HTMLButtonElement>('target')
 const phase = shallowRef<'intro' | 'playing'>('intro')
 const holding = shallowRef(false)
@@ -83,7 +84,7 @@ let pointerY = 0
 let progressTimer: ReturnType<typeof window.setInterval> | undefined
 let moveTimer: ReturnType<typeof window.setInterval> | undefined
 
-const secondsLeft = computed(() => Math.max(0, (7 - progress.value * 0.07)).toFixed(1))
+const secondsLeft = computed(() => Math.max(0, HOLD_DURATION_SECONDS * (1 - progress.value / 100)).toFixed(1))
 
 function prepare() {
 	phase.value = 'playing'
@@ -102,7 +103,7 @@ function startHolding(event: PointerEvent) {
 	event.currentTarget instanceof Element && event.currentTarget.setPointerCapture(event.pointerId)
 	holdStartedAt = performance.now()
 	progressTimer = window.setInterval(updateProgress, 40)
-	moveTimer = window.setInterval(moveTarget, 620)
+	moveTimer = window.setInterval(moveTarget, 900)
 }
 
 function updateProgress() {
@@ -111,7 +112,7 @@ function updateProgress() {
 		return
 	}
 
-	progress.value = Math.min(100, ((performance.now() - holdStartedAt) / 7000) * 100)
+	progress.value = Math.min(100, ((performance.now() - holdStartedAt) / (HOLD_DURATION_SECONDS * 1000)) * 100)
 	if (progress.value >= 100) {
 		cleanup()
 		emit('complete')
@@ -121,8 +122,8 @@ function updateProgress() {
 function moveTarget() {
 	const current = position.value
 	position.value = {
-		x: clamp(current.x + (Math.random() * 16 - 8), 14, 86),
-		y: clamp(current.y + (Math.random() * 18 - 9), 22, 84),
+		x: clamp(current.x + (Math.random() * 10 - 5), 14, 86),
+		y: clamp(current.y + (Math.random() * 12 - 6), 22, 84),
 	}
 }
 
@@ -142,7 +143,7 @@ function isPointerOnTarget() {
 
 	const centerX = rect.left + rect.width / 2
 	const centerY = rect.top + rect.height / 2
-	return Math.hypot(pointerX - centerX, pointerY - centerY) <= 68
+	return Math.hypot(pointerX - centerX, pointerY - centerY) <= 92
 }
 
 function breakHolding() {

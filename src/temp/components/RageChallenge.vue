@@ -14,7 +14,7 @@
 					</div>
 					<div class="border border-stone-600 bg-stone-900 px-3 py-2">
 						<p class="text-stone-500">已完成</p>
-						<p class="mt-1 text-lg font-black text-lime-300">{{ completedCount }}/4</p>
+						<p class="mt-1 text-lg font-black text-lime-300">{{ completedCount }}/{{ stages.length }}</p>
 					</div>
 					<div class="border border-stone-600 bg-stone-900 px-3 py-2">
 						<p class="text-stone-500">怒气值</p>
@@ -28,11 +28,11 @@
 			</div>
 		</header>
 
-		<div class="grid border-b-2 border-stone-950 sm:grid-cols-4">
+		<div class="grid grid-cols-2 border-b-2 border-stone-950 lg:grid-cols-4">
 			<button
 				v-for="(stage, index) in stages"
 				:key="stage.title"
-				class="relative border-b border-stone-300 p-4 text-left transition last:border-b-0 hover:bg-blue-100 focus-visible:z-10 focus-visible:ring-4 focus-visible:ring-blue-500 sm:border-b-0 sm:border-r sm:last:border-r-0"
+				class="relative border-b border-r border-stone-300 p-3 text-left transition hover:bg-blue-100 focus-visible:z-10 focus-visible:ring-4 focus-visible:ring-blue-500 sm:p-4"
 				:class="getStageClass(index)"
 				type="button"
 				:aria-pressed="index === currentStageIndex"
@@ -88,10 +88,14 @@
 import type { Component } from 'vue'
 import { Check, TriangleAlert, Trophy } from '@lucide/vue'
 import { computed, onBeforeUnmount, shallowRef } from 'vue'
+import ColorFraudStage from './rage/ColorFraudStage.vue'
 import EvasiveApprovalStage from './rage/EvasiveApprovalStage.vue'
 import HoldSteadyStage from './rage/HoldSteadyStage.vue'
+import InboxSortStage from './rage/InboxSortStage.vue'
 import MemoryTrapStage from './rage/MemoryTrapStage.vue'
 import NumberHuntStage from './rage/NumberHuntStage.vue'
+import PrecisionStopStage from './rage/PrecisionStopStage.vue'
+import TypingReportStage from './rage/TypingReportStage.vue'
 
 interface StageMeta {
 	title: string
@@ -100,10 +104,14 @@ interface StageMeta {
 }
 
 const stages: StageMeta[] = [
-	{ title: '数字追杀', subtitle: '限时挑战 · 点错即死', component: NumberHuntStage },
-	{ title: '记忆审讯', subtitle: '三轮递增序列', component: MemoryTrapStage },
-	{ title: '稳定性测试', subtitle: '追着按钮长按', component: HoldSteadyStage },
-	{ title: '最终审批', subtitle: '按钮会逃跑', component: EvasiveApprovalStage },
+	{ title: '数字追杀', subtitle: '16 个数字 · 60 秒', component: NumberHuntStage },
+	{ title: '记忆审讯', subtitle: '记住 3/4/5 个', component: MemoryTrapStage },
+	{ title: '稳定性测试', subtitle: '跟随长按 4 秒', component: HoldSteadyStage },
+	{ title: '最终审批', subtitle: '追到 4 次即可', component: EvasiveApprovalStage },
+	{ title: '颜色诈骗', subtitle: '识破 8 次骗局', component: ColorFraudStage },
+	{ title: '废话复读', subtitle: '35 秒精准录入', component: TypingReportStage },
+	{ title: '精准卡点', subtitle: '绿色区域停 3 次', component: PrecisionStopStage },
+	{ title: '待办分拣', subtitle: '35 秒处理 10 条', component: InboxSortStage },
 ]
 
 const currentStageIndex = shallowRef(0)
