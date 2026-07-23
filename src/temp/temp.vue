@@ -37,7 +37,7 @@
 				<div>
 					<div class="mb-5 flex flex-wrap gap-2 font-mono text-xs font-black">
 						<span class="border-2 border-stone-950 bg-red-500 px-3 py-1 text-white">警告：可能破坏友情</span>
-						<span class="border-2 border-stone-950 bg-white px-3 py-1">失败一次 · 全部重来</span>
+						<span class="border-2 border-stone-950 bg-white px-3 py-1">四关自由选择 · 记录单独保留</span>
 					</div>
 					<p class="font-mono text-xs font-black uppercase tracking-[0.3em] text-red-600">The impossible off-work approval</p>
 					<h1 class="mt-3 max-w-5xl font-serif text-5xl font-black leading-none tracking-tight sm:text-7xl lg:text-8xl">
@@ -50,7 +50,7 @@
 					<Flame class="size-8" />
 					<p class="mt-5 font-serif text-2xl font-black">友情测试协议</p>
 					<p class="mt-3 text-sm leading-6 text-stone-700">
-						四关连续通过才算赢。退出页面、手抖、记错、点错，全都从第一关重新开始。
+						第一、第二、第三、第四关都能直接选择。单关失败只重开当前游戏，四关全部完成即可获得下班批准。
 					</p>
 				</div>
 			</div>

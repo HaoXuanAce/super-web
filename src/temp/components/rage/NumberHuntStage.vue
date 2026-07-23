@@ -4,7 +4,7 @@
 			<p class="font-mono text-xs font-black uppercase tracking-widest text-red-600">Stage 01 / Visual Panic</p>
 			<h3 class="mt-3 font-serif text-4xl font-black sm:text-5xl">数字追杀</h3>
 			<p class="mt-4 text-sm leading-7 text-stone-600">
-				从 1 点到 24。每点对一个，所有剩余数字都会重新洗牌。点错一次或超过 18 秒，回到第一关。
+				从 1 点到 24。每点对一个，所有剩余数字都会重新洗牌。点错一次或超过 {{ ROUND_DURATION_SECONDS }} 秒，当前关卡重新开始。
 			</p>
 
 			<div class="mt-6 grid grid-cols-2 gap-3 font-mono">
@@ -62,9 +62,10 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>()
+const ROUND_DURATION_SECONDS = 22
 const phase = shallowRef<'intro' | 'playing'>('intro')
 const expected = shallowRef(1)
-const timeLeft = shallowRef(18)
+const timeLeft = shallowRef(ROUND_DURATION_SECONDS)
 const slots = ref<Array<number | null>>(createSlots(1))
 let timer: ReturnType<typeof window.setInterval> | undefined
 let endAt = 0
@@ -74,9 +75,9 @@ const timeLabel = computed(() => `${Math.max(0, timeLeft.value).toFixed(1)}s`)
 function start() {
 	expected.value = 1
 	slots.value = createSlots(1)
-	timeLeft.value = 18
+	timeLeft.value = ROUND_DURATION_SECONDS
 	phase.value = 'playing'
-	endAt = performance.now() + 18000
+	endAt = performance.now() + ROUND_DURATION_SECONDS * 1000
 	timer = window.setInterval(updateTimer, 100)
 }
 

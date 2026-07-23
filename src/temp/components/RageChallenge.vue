@@ -13,7 +13,7 @@
 						<p class="mt-1 text-lg font-black text-white">{{ attempts }}</p>
 					</div>
 					<div class="border border-stone-600 bg-stone-900 px-3 py-2">
-						<p class="text-stone-500">连续进度</p>
+						<p class="text-stone-500">已完成</p>
 						<p class="mt-1 text-lg font-black text-lime-300">{{ completedCount }}/4</p>
 					</div>
 					<div class="border border-stone-600 bg-stone-900 px-3 py-2">
@@ -29,11 +29,14 @@
 		</header>
 
 		<div class="grid border-b-2 border-stone-950 sm:grid-cols-4">
-			<div
+			<button
 				v-for="(stage, index) in stages"
 				:key="stage.title"
-				class="relative border-b border-stone-300 p-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0"
-				:class="getStageClass(index)">
+				class="relative border-b border-stone-300 p-4 text-left transition last:border-b-0 hover:bg-blue-100 focus-visible:z-10 focus-visible:ring-4 focus-visible:ring-blue-500 sm:border-b-0 sm:border-r sm:last:border-r-0"
+				:class="getStageClass(index)"
+				type="button"
+				:aria-pressed="index === currentStageIndex"
+				@click="selectStage(index)">
 				<div class="flex items-center gap-3">
 					<span class="flex size-8 items-center justify-center border-2 border-current font-mono text-xs font-black">
 						{{ index + 1 }}
@@ -43,9 +46,8 @@
 						<p class="mt-0.5 text-xs opacity-60">{{ stage.subtitle }}</p>
 					</div>
 				</div>
-				<Check v-if="index < currentStageIndex || isFinished" class="absolute right-3 top-3 size-4" />
-				<LockKeyhole v-else-if="index > currentStageIndex" class="absolute right-3 top-3 size-4 opacity-30" />
-			</div>
+				<Check v-if="completedStages[index]" class="absolute right-3 top-3 size-4" />
+			</button>
 		</div>
 
 		<div class="relative min-h-[35rem]">
@@ -54,7 +56,7 @@
 					<TriangleAlert class="mx-auto size-16" />
 					<p class="mt-5 font-mono text-sm font-black uppercase tracking-widest">审批失败</p>
 					<p class="mt-3 font-serif text-4xl font-black">{{ failureMessage }}</p>
-					<p class="mt-5 text-sm text-red-100">很好，前面的努力全部作废。</p>
+					<p class="mt-5 text-sm text-red-100">当前关卡即将重新加载，其他通关记录保留。</p>
 				</div>
 			</div>
 
@@ -84,7 +86,7 @@
 
 <script setup lang="ts">
 import type { Component } from 'vue'
-import { Check, LockKeyhole, TriangleAlert, Trophy } from '@lucide/vue'
+import { Check, TriangleAlert, Trophy } from '@lucide/vue'
 import { computed, onBeforeUnmount, shallowRef } from 'vue'
 import EvasiveApprovalStage from './rage/EvasiveApprovalStage.vue'
 import HoldSteadyStage from './rage/HoldSteadyStage.vue'
@@ -98,32 +100,37 @@ interface StageMeta {
 }
 
 const stages: StageMeta[] = [
-	{ title: '数字追杀', subtitle: '18 秒 · 点错即死', component: NumberHuntStage },
+	{ title: '数字追杀', subtitle: '限时挑战 · 点错即死', component: NumberHuntStage },
 	{ title: '记忆审讯', subtitle: '三轮递增序列', component: MemoryTrapStage },
 	{ title: '稳定性测试', subtitle: '追着按钮长按', component: HoldSteadyStage },
 	{ title: '最终审批', subtitle: '按钮会逃跑', component: EvasiveApprovalStage },
 ]
 
 const currentStageIndex = shallowRef(0)
-const completedCount = shallowRef(0)
+const completedStages = shallowRef<boolean[]>(stages.map(() => false))
 const attempts = shallowRef(1)
 const failureCount = shallowRef(0)
 const failureMessage = shallowRef('')
-const isFinished = shallowRef(false)
 const runKey = shallowRef(0)
 let failureTimer: ReturnType<typeof window.setTimeout> | undefined
 
 const approvalId = crypto.randomUUID().slice(0, 8).toUpperCase()
 const currentStageComponent = computed(() => stages[currentStageIndex.value]?.component ?? NumberHuntStage)
+const completedCount = computed(() => completedStages.value.filter(Boolean).length)
+const isFinished = computed(() => completedCount.value === stages.length)
 const rageValue = computed(() => Math.min(99, failureCount.value * 13 + completedCount.value * 4))
 
 function completeStage() {
-	completedCount.value += 1
-	if (currentStageIndex.value === stages.length - 1) {
-		isFinished.value = true
+	completedStages.value = completedStages.value.map((completed, index) => {
+		return index === currentStageIndex.value ? true : completed
+	})
+
+	const nextStageIndex = completedStages.value.findIndex(completed => !completed)
+	if (nextStageIndex === -1) {
 		return
 	}
-	currentStageIndex.value += 1
+
+	selectStage(nextStageIndex)
 }
 
 function failRun(reason: string) {
@@ -136,8 +143,6 @@ function failRun(reason: string) {
 
 	failureTimer = window.setTimeout(() => {
 		attempts.value += 1
-		currentStageIndex.value = 0
-		completedCount.value = 0
 		runKey.value += 1
 		failureMessage.value = ''
 	}, 1400)
@@ -145,21 +150,35 @@ function failRun(reason: string) {
 
 function restart() {
 	currentStageIndex.value = 0
-	completedCount.value = 0
+	completedStages.value = stages.map(() => false)
 	attempts.value = 1
 	failureCount.value = 0
-	isFinished.value = false
+	runKey.value += 1
+}
+
+function selectStage(index: number) {
+	if (!stages[index]) {
+		return
+	}
+
+	if (failureTimer) {
+		window.clearTimeout(failureTimer)
+		failureTimer = undefined
+	}
+
+	failureMessage.value = ''
+	currentStageIndex.value = index
 	runKey.value += 1
 }
 
 function getStageClass(index: number) {
-	if (isFinished.value || index < currentStageIndex.value) {
-		return 'bg-lime-300 text-stone-950'
-	}
 	if (index === currentStageIndex.value) {
 		return 'bg-amber-300 text-stone-950'
 	}
-	return 'bg-stone-100 text-stone-400'
+	if (completedStages.value[index]) {
+		return 'bg-lime-300 text-stone-950'
+	}
+	return 'bg-stone-100 text-stone-600'
 }
 
 onBeforeUnmount(() => {
